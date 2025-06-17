@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB CRM - Communications</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">PCB CRM</a>
+            <ul class="nav-menu">
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="accounts.html">Accounts</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="communications.html" class="active">Communications</a></li>
+                <li><a href="opportunities.html">Opportunities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Communication Log</h1>
+            <p class="page-subtitle">Track all interactions with your contacts and accounts</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="searchInput" placeholder="Search communications..." class="form-control" style="width: 250px;">
+                    <select id="accountFilter" class="form-control" style="width: 180px;">
+                        <option value="">All Accounts</option>
+                    </select>
+                    <select id="typeFilter" class="form-control" style="width: 150px;">
+                        <option value="">All Types</option>
+                        <option value="Email">Email</option>
+                        <option value="Phone">Phone</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Video Call">Video Call</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="showCommunicationForm()" class="btn btn-primary">Log Communication</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Communications Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">All Communications</h3>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="communicationsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('communicationsTable', 0, 'date')">Date</th>
+                            <th onclick="sortTable('communicationsTable', 1)">Account</th>
+                            <th onclick="sortTable('communicationsTable', 2)">Contact</th>
+                            <th onclick="sortTable('communicationsTable', 3)">Type</th>
+                            <th onclick="sortTable('communicationsTable', 4)">Subject</th>
+                            <th onclick="sortTable('communicationsTable', 5)">Direction</th>
+                            <th>Follow-up</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="communicationsTableBody">
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                <div class="loading" style="display: block;">
+                                    <div class="spinner"></div>
+                                    <p>Loading communications...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Communication Modal -->
+    <div id="communicationModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Log Communication</h2>
+                <span class="close" onclick="hideModal('communicationModal')">&times;</span>
+            </div>
+            <form id="communicationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Account *</label>
+                        <select id="account_id" name="account_id" class="form-control" required>
+                            <option value="">Select Account</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contact</label>
+                        <select id="contact_id" name="contact_id" class="form-control">
+                            <option value="">Select Contact (Optional)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Communication Date *</label>
+                        <input type="date" id="comm_date" name="comm_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Communication Type *</label>
+                        <select id="comm_type" name="comm_type" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="Email">Email</option>
+                            <option value="Phone">Phone Call</option>
+                            <option value="Meeting">In-Person Meeting</option>
+                            <option value="Video Call">Video Call</option>
+                            <option value="Text/SMS">Text/SMS</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Direction *</label>
+                        <select id="direction" name="direction" class="form-control" required>
+                            <option value="">Select Direction</option>
+                            <option value="Outbound">Outbound (We initiated)</option>
+                            <option value="Inbound">Inbound (They contacted us)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Subject *</label>
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="Brief subject/topic" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Summary</label>
+                    <textarea id="summary" name="summary" class="form-control" rows="4" placeholder="Detailed summary of the communication..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Next Steps</label>
+                    <textarea id="next_steps" name="next_steps" class="form-control" rows="2" placeholder="What actions need to be taken next?"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" id="followup_required" name="followup_required" value="1">
+                            Follow-up Required
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Follow-up Date</label>
+                        <input type="date" id="followup_date" name="followup_date" class="form-control">
+                    </div>
+                </div>
+                
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" onclick="hideModal('communicationModal')" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Communication</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/communications.js"></script>
+    <script>
+        // Load communications when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCommunications();
+            loadAccountsForSelect();
+            
+            // Set today's date as default
+            document.getElementById('comm_date').value = new Date().toISOString().split('T')[0];
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                searchTable('communicationsTable', e.target.value);
+            });
+            
+            // Filters
+            document.getElementById('accountFilter').addEventListener('change', function(e) {
+                filterCommunications();
+            });
+            
+            document.getElementById('typeFilter').addEventListener('change', function(e) {
+                filterCommunications();
+            });
+            
+            // Account change handler for contact dropdown
+            document.getElementById('account_id').addEventListener('change', function(e) {
+                loadContactsForAccount(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>

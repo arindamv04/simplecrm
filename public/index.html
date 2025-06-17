@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB CRM - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">PCB CRM</a>
+            <ul class="nav-menu">
+                <li><a href="/" class="active">Dashboard</a></li>
+                <li><a href="accounts.html">Accounts</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="communications.html">Communications</a></li>
+                <li><a href="opportunities.html">Opportunities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Overview of your PCB CRM system</p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalAccounts">-</div>
+                <div class="stat-label">Total Accounts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalContacts">-</div>
+                <div class="stat-label">Total Contacts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalOpportunities">-</div>
+                <div class="stat-label">Opportunities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCommunications">-</div>
+                <div class="stat-label">Communications</div>
+            </div>
+        </div>
+
+        <!-- Account Status Breakdown -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Account Status Breakdown</h3>
+            </div>
+            <div id="accountStatusChart">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading account status data...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Recent Activity</h3>
+            </div>
+            <div id="recentActivity">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading recent activity...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Quick Actions</h3>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <a href="accounts.html" class="btn btn-primary">Add New Account</a>
+                <a href="contacts.html" class="btn btn-secondary">Add New Contact</a>
+                <a href="communications.html" class="btn btn-success">Log Communication</a>
+                <a href="opportunities.html" class="btn btn-primary">Create Opportunity</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Load dashboard data when page loads
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

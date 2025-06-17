@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB CRM - Accounts</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">PCB CRM</a>
+            <ul class="nav-menu">
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="accounts.html" class="active">Accounts</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="communications.html">Communications</a></li>
+                <li><a href="opportunities.html">Opportunities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Account Management</h1>
+            <p class="page-subtitle">Manage your customer and prospect accounts</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <input type="text" id="searchInput" placeholder="Search accounts..." class="form-control" style="width: 300px;">
+                </div>
+                <div>
+                    <button onclick="showModal('accountModal')" class="btn btn-primary">Add New Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">All Accounts</h3>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="accountsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('accountsTable', 0)">Company Name</th>
+                            <th onclick="sortTable('accountsTable', 1)">Industry</th>
+                            <th onclick="sortTable('accountsTable', 2)">Status</th>
+                            <th onclick="sortTable('accountsTable', 3)">Location</th>
+                            <th onclick="sortTable('accountsTable', 4, 'date')">Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountsTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="loading" style="display: block;">
+                                    <div class="spinner"></div>
+                                    <p>Loading accounts...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add New Account</h2>
+                <span class="close" onclick="hideModal('accountModal')">&times;</span>
+            </div>
+            <form id="accountForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Company Name *</label>
+                        <input type="text" id="company_name" name="company_name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Industry</label>
+                        <select id="industry" name="industry" class="form-control">
+                            <option value="">Select Industry</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Automotive">Automotive</option>
+                            <option value="Telecommunications">Telecommunications</option>
+                            <option value="Medical Devices">Medical Devices</option>
+                            <option value="Aerospace">Aerospace</option>
+                            <option value="Consumer Electronics">Consumer Electronics</option>
+                            <option value="Industrial">Industrial</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Company Size</label>
+                        <select id="company_size" name="company_size" class="form-control">
+                            <option value="">Select Size</option>
+                            <option value="Startup (1-10)">Startup (1-10)</option>
+                            <option value="Small (11-50)">Small (11-50)</option>
+                            <option value="Medium (51-200)">Medium (51-200)</option>
+                            <option value="Large (201-1000)">Large (201-1000)</option>
+                            <option value="Enterprise (1000+)">Enterprise (1000+)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" id="location" name="location" class="form-control" placeholder="City, State, Country">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Website</label>
+                        <input type="url" id="website" name="website" class="form-control" placeholder="https://example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Status</label>
+                        <select id="account_status" name="account_status" class="form-control">
+                            <option value="Prospect">Prospect</option>
+                            <option value="Customer">Customer</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Source</label>
+                        <select id="source" name="source" class="form-control">
+                            <option value="">Select Source</option>
+                            <option value="Cold Call">Cold Call</option>
+                            <option value="Referral">Referral</option>
+                            <option value="Website">Website</option>
+                            <option value="Trade Show">Trade Show</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Google Ads">Google Ads</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Revenue Potential ($)</label>
+                        <input type="number" id="revenue_potential" name="revenue_potential" class="form-control" min="0" step="1000">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Decision Timeline</label>
+                        <select id="decision_timeline" name="decision_timeline" class="form-control">
+                            <option value="">Select Timeline</option>
+                            <option value="Immediate (0-30 days)">Immediate (0-30 days)</option>
+                            <option value="Short-term (1-3 months)">Short-term (1-3 months)</option>
+                            <option value="Medium-term (3-6 months)">Medium-term (3-6 months)</option>
+                            <option value="Long-term (6+ months)">Long-term (6+ months)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Owner</label>
+                        <input type="text" id="account_owner" name="account_owner" class="form-control" placeholder="Sales Rep Name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Technical Requirements</label>
+                    <textarea id="technical_requirements" name="technical_requirements" class="form-control" rows="3" placeholder="Describe technical requirements..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Current Supplier</label>
+                    <input type="text" id="current_supplier" name="current_supplier" class="form-control" placeholder="Current PCB supplier">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Last Contact Date</label>
+                        <input type="date" id="last_contact" name="last_contact" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Next Follow-up Date</label>
+                        <input type="date" id="next_followup" name="next_followup" class="form-control">
+                    </div>
+                </div>
+                
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" onclick="hideModal('accountModal')" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/accounts.js"></script>
+    <script>
+        // Load accounts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAccounts();
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                searchTable('accountsTable', e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>

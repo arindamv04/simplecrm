@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB CRM - Opportunities</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">PCB CRM</a>
+            <ul class="nav-menu">
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="accounts.html">Accounts</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="communications.html">Communications</a></li>
+                <li><a href="opportunities.html" class="active">Opportunities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Opportunity Management</h1>
+            <p class="page-subtitle">Track sales opportunities and revenue pipeline</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="stats-grid" id="opportunityStats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalOpps">-</div>
+                <div class="stat-label">Total Opportunities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalValue">-</div>
+                <div class="stat-label">Total Pipeline Value</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgValue">-</div>
+                <div class="stat-label">Average Deal Size</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgProbability">-</div>
+                <div class="stat-label">Average Probability</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="searchInput" placeholder="Search opportunities..." class="form-control" style="width: 250px;">
+                    <select id="accountFilter" class="form-control" style="width: 180px;">
+                        <option value="">All Accounts</option>
+                    </select>
+                    <select id="stageFilter" class="form-control" style="width: 150px;">
+                        <option value="">All Stages</option>
+                        <option value="Prospecting">Prospecting</option>
+                        <option value="Qualification">Qualification</option>
+                        <option value="Proposal">Proposal</option>
+                        <option value="Negotiation">Negotiation</option>
+                        <option value="Closed Won">Closed Won</option>
+                        <option value="Closed Lost">Closed Lost</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="showOpportunityForm()" class="btn btn-primary">Create Opportunity</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opportunities Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">All Opportunities</h3>
+            </div>
+            <div class="table-container">
+                <table class="data-table" id="opportunitiesTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('opportunitiesTable', 0)">Opportunity</th>
+                            <th onclick="sortTable('opportunitiesTable', 1)">Account</th>
+                            <th onclick="sortTable('opportunitiesTable', 2)">Stage</th>
+                            <th onclick="sortTable('opportunitiesTable', 3, 'number')">Value</th>
+                            <th onclick="sortTable('opportunitiesTable', 4, 'number')">Probability</th>
+                            <th onclick="sortTable('opportunitiesTable', 5, 'date')">Expected Close</th>
+                            <th onclick="sortTable('opportunitiesTable', 6, 'date')">Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="opportunitiesTableBody">
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                <div class="loading" style="display: block;">
+                                    <div class="spinner"></div>
+                                    <p>Loading opportunities...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opportunity Modal -->
+    <div id="opportunityModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Create Opportunity</h2>
+                <span class="close" onclick="hideModal('opportunityModal')">&times;</span>
+            </div>
+            <form id="opportunityForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Account *</label>
+                        <select id="account_id" name="account_id" class="form-control" required>
+                            <option value="">Select Account</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Opportunity Name *</label>
+                        <input type="text" id="opp_name" name="opp_name" class="form-control" placeholder="e.g., PCB Manufacturing Contract" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Stage *</label>
+                        <select id="stage" name="stage" class="form-control" required>
+                            <option value="">Select Stage</option>
+                            <option value="Prospecting">Prospecting</option>
+                            <option value="Qualification">Qualification</option>
+                            <option value="Proposal">Proposal</option>
+                            <option value="Negotiation">Negotiation</option>
+                            <option value="Closed Won">Closed Won</option>
+                            <option value="Closed Lost">Closed Lost</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expected Close Date</label>
+                        <input type="date" id="expected_close" name="expected_close" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Opportunity Value ($)</label>
+                        <input type="number" id="value" name="value" class="form-control" min="0" step="100" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Probability (%)</label>
+                        <input type="number" id="probability" name="probability" class="form-control" min="0" max="100" placeholder="50">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Requirements</label>
+                    <textarea id="requirements" name="requirements" class="form-control" rows="3" placeholder="Detailed requirements and specifications..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Competition</label>
+                    <textarea id="competition" name="competition" class="form-control" rows="2" placeholder="Known competitors and their strengths/weaknesses..."></textarea>
+                </div>
+                
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" onclick="hideModal('opportunityModal')" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Opportunity</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/opportunities.js"></script>
+    <script>
+        // Load opportunities when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOpportunities();
+            loadAccountsForSelect();
+            calculateOpportunityStats();
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                searchTable('opportunitiesTable', e.target.value);
+            });
+            
+            // Filters
+            document.getElementById('accountFilter').addEventListener('change', function(e) {
+                filterOpportunities();
+            });
+            
+            document.getElementById('stageFilter').addEventListener('change', function(e) {
+                filterOpportunities();
+            });
+        });
+    </script>
+</body>
+</html>
