@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  pcb-crm:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data:z
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    container_name: pcb-crm
