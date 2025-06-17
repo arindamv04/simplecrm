@@ -175,6 +175,85 @@
         </div>
     </div>
 
+    <!-- Opportunity Detail Modal -->
+    <div id="opportunityDetailModal" class="detail-modal">
+        <div class="detail-modal-content">
+            <div class="detail-modal-header">
+                <h2 class="detail-modal-title">Opportunity Details</h2>
+                <button class="detail-modal-close" onclick="hideDetailModal('opportunityDetailModal')">&times;</button>
+            </div>
+            <div class="detail-modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Opportunity Overview</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Opportunity Name</div>
+                            <div class="detail-field-value" id="detail-opp-name"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Stage</div>
+                            <div class="detail-field-value" id="detail-opp-stage"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Account</div>
+                            <div class="detail-field-value" id="detail-opp-account"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Expected Close Date</div>
+                            <div class="detail-field-value date" id="detail-opp-expected-close"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Financial Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Opportunity Value</div>
+                            <div class="detail-field-value currency" id="detail-opp-value"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Probability (%)</div>
+                            <div class="detail-field-value" id="detail-opp-probability"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Weighted Value</div>
+                            <div class="detail-field-value currency" id="detail-opp-weighted-value"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Detailed Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Requirements</div>
+                            <div class="detail-field-value text-long" id="detail-opp-requirements"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Competition</div>
+                            <div class="detail-field-value text-long" id="detail-opp-competition"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">System Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Created</div>
+                            <div class="detail-field-value date" id="detail-opp-created"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Opportunity ID</div>
+                            <div class="detail-field-value" id="detail-opp-id"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/opportunities.js"></script>
     <script>

@@ -28,7 +28,7 @@ function displayAccounts(accounts) {
     let html = '';
     accounts.forEach(account => {
         html += `
-            <tr>
+            <tr data-record-id="${account.account_id}">
                 <td>
                     <strong>${account.company_name}</strong>
                     ${account.website ? `<br><small><a href="${account.website}" target="_blank" style="color: #667eea;">${account.website}</a></small>` : ''}
@@ -46,6 +46,9 @@ function displayAccounts(accounts) {
     });
     
     tbody.innerHTML = html;
+    
+    // Make rows clickable for detail view
+    makeRowsClickable('accountsTable', showAccountDetail);
 }
 
 // Show account form
@@ -160,6 +163,43 @@ document.getElementById('accountForm').addEventListener('submit', async function
         }
     }
 });
+
+// Show account detail view
+async function showAccountDetail(accountId) {
+    try {
+        const account = await apiCall(`/accounts/${accountId}`);
+        populateAccountDetail(account);
+        showDetailModal('accountDetailModal');
+    } catch (error) {
+        console.error('Failed to load account details:', error);
+        showAlert('Failed to load account details', 'error');
+    }
+}
+
+// Populate account detail modal
+function populateAccountDetail(account) {
+    document.getElementById('detail-company-name').innerHTML = formatDetailText(account.company_name);
+    document.getElementById('detail-industry').innerHTML = formatDetailText(account.industry);
+    document.getElementById('detail-company-size').innerHTML = formatDetailText(account.company_size);
+    document.getElementById('detail-location').innerHTML = formatDetailText(account.location);
+    document.getElementById('detail-website').innerHTML = formatDetailWebsite(account.website);
+    
+    document.getElementById('detail-account-status').innerHTML = formatDetailStatusBadge(account.account_status);
+    document.getElementById('detail-source').innerHTML = formatDetailText(account.source);
+    document.getElementById('detail-revenue-potential').innerHTML = formatDetailCurrency(account.revenue_potential);
+    document.getElementById('detail-decision-timeline').innerHTML = formatDetailText(account.decision_timeline);
+    
+    document.getElementById('detail-technical-requirements').innerHTML = formatDetailText(account.technical_requirements);
+    document.getElementById('detail-current-supplier').innerHTML = formatDetailText(account.current_supplier);
+    
+    document.getElementById('detail-account-owner').innerHTML = formatDetailText(account.account_owner);
+    document.getElementById('detail-last-contact').innerHTML = formatDetailDate(account.last_contact);
+    document.getElementById('detail-next-followup').innerHTML = formatDetailDate(account.next_followup);
+    
+    document.getElementById('detail-created-at').innerHTML = formatDetailDate(account.created_at);
+    document.getElementById('detail-updated-at').innerHTML = formatDetailDate(account.updated_at);
+    document.getElementById('detail-account-id').innerHTML = formatDetailText(account.account_id);
+}
 
 // Initialize accounts page
 function initAccountsPage() {

@@ -173,6 +173,95 @@
         </div>
     </div>
 
+    <!-- Communication Detail Modal -->
+    <div id="communicationDetailModal" class="detail-modal">
+        <div class="detail-modal-content">
+            <div class="detail-modal-header">
+                <h2 class="detail-modal-title">Communication Details</h2>
+                <button class="detail-modal-close" onclick="hideDetailModal('communicationDetailModal')">&times;</button>
+            </div>
+            <div class="detail-modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Communication Overview</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Date</div>
+                            <div class="detail-field-value date" id="detail-comm-date"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Type</div>
+                            <div class="detail-field-value" id="detail-comm-type"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Direction</div>
+                            <div class="detail-field-value" id="detail-comm-direction"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Subject</div>
+                            <div class="detail-field-value" id="detail-comm-subject"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Participants</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Account</div>
+                            <div class="detail-field-value" id="detail-comm-account"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Contact</div>
+                            <div class="detail-field-value" id="detail-comm-contact"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Communication Content</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Summary</div>
+                            <div class="detail-field-value text-long" id="detail-comm-summary"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Next Steps</div>
+                            <div class="detail-field-value text-long" id="detail-comm-next-steps"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Follow-up Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Follow-up Required</div>
+                            <div class="detail-field-value" id="detail-comm-followup-required"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Follow-up Date</div>
+                            <div class="detail-field-value date" id="detail-comm-followup-date"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">System Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Created</div>
+                            <div class="detail-field-value date" id="detail-comm-created"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Communication ID</div>
+                            <div class="detail-field-value" id="detail-comm-id"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/communications.js"></script>
     <script>

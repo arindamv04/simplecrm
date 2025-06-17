@@ -77,7 +77,7 @@ function displayContacts(contacts) {
         if (contact.decision_maker) flags += '<span class="status-badge status-prospect">Decision Maker</span>';
         
         html += `
-            <tr>
+            <tr data-record-id="${contact.contact_id}">
                 <td>
                     <strong>${fullName}</strong>
                     ${contact.notes ? `<br><small style="color: #666;">${contact.notes.substring(0, 50)}${contact.notes.length > 50 ? '...' : ''}</small>` : ''}
@@ -96,6 +96,9 @@ function displayContacts(contacts) {
     });
     
     tbody.innerHTML = html;
+    
+    // Make rows clickable for detail view
+    makeRowsClickable('contactsTable', showContactDetail);
 }
 
 // Show contact form
@@ -220,6 +223,41 @@ document.getElementById('contactForm').addEventListener('submit', async function
         showAlert('Failed to save contact', 'error');
     }
 });
+
+// Show contact detail view
+async function showContactDetail(contactId) {
+    try {
+        const contact = await apiCall(`/contacts/${contactId}`);
+        populateContactDetail(contact);
+        showDetailModal('contactDetailModal');
+    } catch (error) {
+        console.error('Failed to load contact details:', error);
+        showAlert('Failed to load contact details', 'error');
+    }
+}
+
+// Populate contact detail modal
+function populateContactDetail(contact) {
+    const fullName = `${contact.first_name || ''} ${contact.last_name || ''}`.trim();
+    const account = allAccounts.find(acc => String(acc.account_id) === String(contact.account_id));
+    
+    document.getElementById('detail-contact-name').innerHTML = formatDetailText(fullName);
+    document.getElementById('detail-contact-title').innerHTML = formatDetailText(contact.title);
+    document.getElementById('detail-contact-email').innerHTML = formatDetailEmail(contact.email);
+    document.getElementById('detail-contact-phone').innerHTML = formatDetailPhone(contact.phone);
+    
+    document.getElementById('detail-contact-company').innerHTML = account ? account.company_name : '<span class="empty">Unknown</span>';
+    
+    let flags = '';
+    if (contact.primary_contact) flags += '<span class="status-badge status-customer">Primary Contact</span> ';
+    if (contact.decision_maker) flags += '<span class="status-badge status-prospect">Decision Maker</span>';
+    document.getElementById('detail-contact-flags').innerHTML = flags || '<span class="empty">None</span>';
+    
+    document.getElementById('detail-contact-notes').innerHTML = formatDetailText(contact.notes);
+    
+    document.getElementById('detail-contact-created').innerHTML = formatDetailDate(contact.created_at);
+    document.getElementById('detail-contact-id').innerHTML = formatDetailText(contact.contact_id);
+}
 
 // Initialize contacts page
 function initContactsPage() {

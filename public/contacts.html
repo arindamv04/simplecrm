@@ -146,6 +146,77 @@
         </div>
     </div>
 
+    <!-- Contact Detail Modal -->
+    <div id="contactDetailModal" class="detail-modal">
+        <div class="detail-modal-content">
+            <div class="detail-modal-header">
+                <h2 class="detail-modal-title">Contact Details</h2>
+                <button class="detail-modal-close" onclick="hideDetailModal('contactDetailModal')">&times;</button>
+            </div>
+            <div class="detail-modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Personal Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Full Name</div>
+                            <div class="detail-field-value" id="detail-contact-name"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Title</div>
+                            <div class="detail-field-value" id="detail-contact-title"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Email</div>
+                            <div class="detail-field-value link" id="detail-contact-email"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Phone</div>
+                            <div class="detail-field-value link" id="detail-contact-phone"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Company Association</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Company</div>
+                            <div class="detail-field-value" id="detail-contact-company"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Contact Flags</div>
+                            <div class="detail-field-value" id="detail-contact-flags"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Additional Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Notes</div>
+                            <div class="detail-field-value text-long" id="detail-contact-notes"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">System Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Created</div>
+                            <div class="detail-field-value date" id="detail-contact-created"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Contact ID</div>
+                            <div class="detail-field-value" id="detail-contact-id"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/contacts.js"></script>
     <script>

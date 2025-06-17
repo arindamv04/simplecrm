@@ -200,6 +200,115 @@
         </div>
     </div>
 
+    <!-- Account Detail Modal -->
+    <div id="accountDetailModal" class="detail-modal">
+        <div class="detail-modal-content">
+            <div class="detail-modal-header">
+                <h2 class="detail-modal-title">Account Details</h2>
+                <button class="detail-modal-close" onclick="hideDetailModal('accountDetailModal')">&times;</button>
+            </div>
+            <div class="detail-modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Company Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Company Name</div>
+                            <div class="detail-field-value" id="detail-company-name"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Industry</div>
+                            <div class="detail-field-value" id="detail-industry"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Company Size</div>
+                            <div class="detail-field-value" id="detail-company-size"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Location</div>
+                            <div class="detail-field-value" id="detail-location"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Website</div>
+                            <div class="detail-field-value" id="detail-website"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Business Details</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Account Status</div>
+                            <div class="detail-field-value" id="detail-account-status"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Source</div>
+                            <div class="detail-field-value" id="detail-source"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Revenue Potential</div>
+                            <div class="detail-field-value currency" id="detail-revenue-potential"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Decision Timeline</div>
+                            <div class="detail-field-value" id="detail-decision-timeline"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Technical Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Technical Requirements</div>
+                            <div class="detail-field-value text-long" id="detail-technical-requirements"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Current Supplier</div>
+                            <div class="detail-field-value" id="detail-current-supplier"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Account Management</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Account Owner</div>
+                            <div class="detail-field-value" id="detail-account-owner"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Last Contact</div>
+                            <div class="detail-field-value date" id="detail-last-contact"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Next Follow-up</div>
+                            <div class="detail-field-value date" id="detail-next-followup"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">System Information</h3>
+                    <div class="detail-fields">
+                        <div class="detail-field">
+                            <div class="detail-field-label">Created</div>
+                            <div class="detail-field-value date" id="detail-created-at"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Last Updated</div>
+                            <div class="detail-field-value date" id="detail-updated-at"></div>
+                        </div>
+                        <div class="detail-field">
+                            <div class="detail-field-label">Account ID</div>
+                            <div class="detail-field-value" id="detail-account-id"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/accounts.js"></script>
     <script>

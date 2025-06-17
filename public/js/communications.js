@@ -104,7 +104,7 @@ function displayCommunications(communications) {
             '-';
         
         html += `
-            <tr>
+            <tr data-record-id="${comm.comm_id}">
                 <td>${formatDate(comm.comm_date)}</td>
                 <td>${account ? account.company_name : 'Unknown'}</td>
                 <td>${contactName}</td>
@@ -124,6 +124,9 @@ function displayCommunications(communications) {
     });
     
     tbody.innerHTML = html;
+    
+    // Make rows clickable for detail view
+    makeRowsClickable('communicationsTable', showCommunicationDetail);
 }
 
 // Show communication form
@@ -260,6 +263,48 @@ document.getElementById('communicationForm').addEventListener('submit', async fu
         showAlert('Failed to save communication', 'error');
     }
 });
+
+// Show communication detail view
+async function showCommunicationDetail(commId) {
+    try {
+        const communication = await apiCall(`/communications/${commId}`);
+        populateCommunicationDetail(communication);
+        showDetailModal('communicationDetailModal');
+    } catch (error) {
+        console.error('Failed to load communication details:', error);
+        showAlert('Failed to load communication details', 'error');
+    }
+}
+
+// Populate communication detail modal
+function populateCommunicationDetail(comm) {
+    const account = allAccounts.find(acc => String(acc.account_id) === String(comm.account_id));
+    const contact = allContacts.find(c => String(c.contact_id) === String(comm.contact_id));
+    
+    document.getElementById('detail-comm-date').innerHTML = formatDetailDate(comm.comm_date);
+    document.getElementById('detail-comm-type').innerHTML = formatDetailText(comm.comm_type);
+    
+    const directionBadge = comm.direction === 'Inbound' ? 
+        '<span class="status-badge status-customer">Inbound</span>' : 
+        '<span class="status-badge status-prospect">Outbound</span>';
+    document.getElementById('detail-comm-direction').innerHTML = directionBadge;
+    
+    document.getElementById('detail-comm-subject').innerHTML = formatDetailText(comm.subject);
+    
+    document.getElementById('detail-comm-account').innerHTML = account ? account.company_name : '<span class="empty">Unknown</span>';
+    document.getElementById('detail-comm-contact').innerHTML = contact ? 
+        `${contact.first_name} ${contact.last_name}` : 
+        '<span class="empty">No contact specified</span>';
+    
+    document.getElementById('detail-comm-summary').innerHTML = formatDetailText(comm.summary);
+    document.getElementById('detail-comm-next-steps').innerHTML = formatDetailText(comm.next_steps);
+    
+    document.getElementById('detail-comm-followup-required').innerHTML = formatDetailBoolean(comm.followup_required, 'Yes', 'No');
+    document.getElementById('detail-comm-followup-date').innerHTML = formatDetailDate(comm.followup_date);
+    
+    document.getElementById('detail-comm-created').innerHTML = formatDetailDate(comm.created_at);
+    document.getElementById('detail-comm-id').innerHTML = formatDetailText(comm.comm_id);
+}
 
 // Initialize communications page
 function initCommunicationsPage() {

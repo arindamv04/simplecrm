@@ -121,7 +121,7 @@ function displayOpportunities(opportunities) {
         const weightedValue = (parseFloat(opp.value) || 0) * (parseInt(opp.probability) || 0) / 100;
         
         html += `
-            <tr>
+            <tr data-record-id="${opp.opp_id}">
                 <td>
                     <strong>${opp.opp_name}</strong>
                     ${opp.requirements ? `<br><small style="color: #666;">${opp.requirements.substring(0, 60)}${opp.requirements.length > 60 ? '...' : ''}</small>` : ''}
@@ -144,6 +144,9 @@ function displayOpportunities(opportunities) {
     });
     
     tbody.innerHTML = html;
+    
+    // Make rows clickable for detail view
+    makeRowsClickable('opportunitiesTable', showOpportunityDetail);
 }
 
 // Show opportunity form
@@ -271,6 +274,66 @@ document.getElementById('opportunityForm').addEventListener('submit', async func
         showAlert('Failed to save opportunity', 'error');
     }
 });
+
+// Show opportunity detail view
+async function showOpportunityDetail(oppId) {
+    try {
+        const opportunity = await apiCall(`/opportunities/${oppId}`);
+        populateOpportunityDetail(opportunity);
+        showDetailModal('opportunityDetailModal');
+    } catch (error) {
+        console.error('Failed to load opportunity details:', error);
+        showAlert('Failed to load opportunity details', 'error');
+    }
+}
+
+// Populate opportunity detail modal
+function populateOpportunityDetail(opp) {
+    const account = allAccounts.find(acc => String(acc.account_id) === String(opp.account_id));
+    
+    document.getElementById('detail-opp-name').innerHTML = formatDetailText(opp.opp_name);
+    
+    // Format stage badge
+    let stageBadge = '';
+    switch(opp.stage) {
+        case 'Prospecting':
+            stageBadge = '<span class="status-badge" style="background-color: #e3f2fd; color: #1976d2;">Prospecting</span>';
+            break;
+        case 'Qualification':
+            stageBadge = '<span class="status-badge" style="background-color: #fff3e0; color: #f57c00;">Qualification</span>';
+            break;
+        case 'Proposal':
+            stageBadge = '<span class="status-badge" style="background-color: #f3e5f5; color: #7b1fa2;">Proposal</span>';
+            break;
+        case 'Negotiation':
+            stageBadge = '<span class="status-badge" style="background-color: #fff8e1; color: #f9a825;">Negotiation</span>';
+            break;
+        case 'Closed Won':
+            stageBadge = '<span class="status-badge status-customer">Closed Won</span>';
+            break;
+        case 'Closed Lost':
+            stageBadge = '<span class="status-badge status-inactive">Closed Lost</span>';
+            break;
+        default:
+            stageBadge = `<span class="status-badge status-prospect">${opp.stage}</span>`;
+    }
+    document.getElementById('detail-opp-stage').innerHTML = stageBadge;
+    
+    document.getElementById('detail-opp-account').innerHTML = account ? account.company_name : '<span class="empty">Unknown</span>';
+    document.getElementById('detail-opp-expected-close').innerHTML = formatDetailDate(opp.expected_close);
+    
+    document.getElementById('detail-opp-value').innerHTML = formatDetailCurrency(opp.value);
+    document.getElementById('detail-opp-probability').innerHTML = formatDetailText(opp.probability ? `${opp.probability}%` : null);
+    
+    const weightedValue = (parseFloat(opp.value) || 0) * (parseInt(opp.probability) || 0) / 100;
+    document.getElementById('detail-opp-weighted-value').innerHTML = formatDetailCurrency(weightedValue);
+    
+    document.getElementById('detail-opp-requirements').innerHTML = formatDetailText(opp.requirements);
+    document.getElementById('detail-opp-competition').innerHTML = formatDetailText(opp.competition);
+    
+    document.getElementById('detail-opp-created').innerHTML = formatDetailDate(opp.created_at);
+    document.getElementById('detail-opp-id').innerHTML = formatDetailText(opp.opp_id);
+}
 
 // Initialize opportunities page
 function initOpportunitiesPage() {

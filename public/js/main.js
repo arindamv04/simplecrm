@@ -327,6 +327,162 @@ function initializePage() {
                     modal.style.display = 'none';
                 }
             });
+            
+            // Close detail modals
+            const detailModals = document.querySelectorAll('.detail-modal');
+            detailModals.forEach(modal => {
+                if (modal.classList.contains('show')) {
+                    hideDetailModal(modal.id);
+                }
+            });
+        }
+    });
+}
+
+// Detail View Modal Functions
+function showDetailModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('show');
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function hideDetailModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore background scrolling
+    }
+}
+
+// Utility functions for detail views
+function formatDetailDate(dateString) {
+    if (!dateString) return '<span class="empty">Not set</span>';
+    
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    } catch (error) {
+        return '<span class="empty">Invalid date</span>';
+    }
+}
+
+function formatDetailCurrency(amount) {
+    if (!amount || amount === 0) return '<span class="empty">Not set</span>';
+    
+    try {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(amount);
+    } catch (error) {
+        return '<span class="empty">Invalid amount</span>';
+    }
+}
+
+function formatDetailText(text) {
+    if (!text || text.trim() === '') return '<span class="empty">Not provided</span>';
+    return text;
+}
+
+function formatDetailEmail(email) {
+    if (!email) return '<span class="empty">Not provided</span>';
+    return `<a href="mailto:${email}" class="link">${email}</a>`;
+}
+
+function formatDetailPhone(phone) {
+    if (!phone) return '<span class="empty">Not provided</span>';
+    return `<a href="tel:${phone}" class="link">${phone}</a>`;
+}
+
+function formatDetailWebsite(website) {
+    if (!website) return '<span class="empty">Not provided</span>';
+    
+    // Add protocol if missing
+    let url = website;
+    if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+    }
+    
+    return `<a href="${url}" target="_blank" class="link">${website}</a>`;
+}
+
+function formatDetailStatusBadge(status) {
+    if (!status) return '<span class="empty">Not set</span>';
+    
+    let badgeClass = 'status-badge';
+    switch(status.toLowerCase()) {
+        case 'customer':
+            badgeClass += ' status-customer';
+            break;
+        case 'prospect':
+            badgeClass += ' status-prospect';
+            break;
+        case 'inactive':
+            badgeClass += ' status-inactive';
+            break;
+        default:
+            badgeClass += ' status-prospect';
+    }
+    
+    return `<span class="${badgeClass}">${status}</span>`;
+}
+
+function formatDetailBoolean(value, trueText = 'Yes', falseText = 'No') {
+    if (value === 1 || value === true || value === 'true') {
+        return `<span class="status-badge status-customer">${trueText}</span>`;
+    }
+    return `<span class="status-badge status-inactive">${falseText}</span>`;
+}
+
+// Make table rows clickable (excluding action buttons)
+function makeRowsClickable(tableId, detailFunction) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+    
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    
+    // Remove existing click listeners
+    tbody.removeEventListener('click', handleRowClick);
+    
+    // Add new click listener
+    tbody.addEventListener('click', function(e) {
+        handleRowClick(e, detailFunction);
+    });
+}
+
+function handleRowClick(event, detailFunction) {
+    // Don't trigger on action buttons or their children
+    if (event.target.closest('.btn') || event.target.closest('button')) {
+        return;
+    }
+    
+    const row = event.target.closest('tr');
+    if (!row || !row.dataset.recordId) {
+        return;
+    }
+    
+    const recordId = row.dataset.recordId;
+    detailFunction(recordId);
+}
+
+// Add record ID to table rows
+function addRecordIdToRows(tableBodyId, records, idField = 'id') {
+    const tbody = document.getElementById(tableBodyId);
+    if (!tbody) return;
+    
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach((row, index) => {
+        if (records[index] && records[index][idField]) {
+            row.dataset.recordId = records[index][idField];
         }
     });
 }
