@@ -91,10 +91,7 @@ function displayCommunications(communications) {
     
     let html = '';
     communications.forEach(comm => {
-        const account = allAccounts.find(acc => String(acc.account_id) === String(comm.account_id));
-        const contact = allContacts.find(c => String(c.contact_id) === String(comm.contact_id));
-        
-        const contactName = contact ? `${contact.first_name} ${contact.last_name}` : '-';
+        const contactName = comm.contact_name || '-';
         const directionBadge = comm.direction === 'Inbound' ? 
             '<span class="status-badge status-customer">Inbound</span>' : 
             '<span class="status-badge status-prospect">Outbound</span>';
@@ -106,7 +103,7 @@ function displayCommunications(communications) {
         html += `
             <tr data-record-id="${comm.comm_id}">
                 <td>${formatDate(comm.comm_date)}</td>
-                <td>${account ? account.company_name : 'Unknown'}</td>
+                <td>${comm.company_name || 'Unknown'}</td>
                 <td>${contactName}</td>
                 <td>${comm.comm_type}</td>
                 <td>

@@ -23,12 +23,16 @@ const accountsRouter = require('./routes/accounts');
 const contactsRouter = require('./routes/contacts');
 const communicationsRouter = require('./routes/communications');
 const opportunitiesRouter = require('./routes/opportunities');
+const exportRouter = require('./routes/export');
+const importRouter = require('./routes/import');
 
 // API routes
 app.use('/api/accounts', accountsRouter);
 app.use('/api/contacts', contactsRouter);
 app.use('/api/communications', communicationsRouter);
 app.use('/api/opportunities', opportunitiesRouter);
+app.use('/api/export', exportRouter);
+app.use('/api/import', importRouter);
 
 // Dashboard statistics endpoint
 app.get('/api/dashboard', async (req, res) => {

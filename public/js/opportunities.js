@@ -91,7 +91,6 @@ function displayOpportunities(opportunities) {
     
     let html = '';
     opportunities.forEach(opp => {
-        const account = allAccounts.find(acc => String(acc.account_id) === String(opp.account_id));
         
         // Stage badge styling
         let stageBadge = '';
@@ -126,7 +125,7 @@ function displayOpportunities(opportunities) {
                     <strong>${opp.opp_name}</strong>
                     ${opp.requirements ? `<br><small style="color: #666;">${opp.requirements.substring(0, 60)}${opp.requirements.length > 60 ? '...' : ''}</small>` : ''}
                 </td>
-                <td>${account ? account.company_name : 'Unknown'}</td>
+                <td>${opp.company_name || 'Unknown'}</td>
                 <td>${stageBadge}</td>
                 <td>
                     ${formatCurrency(opp.value)}

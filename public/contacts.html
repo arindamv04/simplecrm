@@ -17,6 +17,20 @@
                 <li><a href="contacts.html" class="active">Contacts</a></li>
                 <li><a href="communications.html">Communications</a></li>
                 <li><a href="opportunities.html">Opportunities</a></li>
+                <li class="nav-action">
+                    <button onclick="exportData()" class="btn btn-export" title="Export Data">
+                        📤 Export
+                    </button>
+                </li>
+                <li class="nav-action dropdown">
+                    <button class="btn btn-import dropdown-toggle" onclick="toggleImportDropdown()" title="Import Data">
+                        📥 Import ▼
+                    </button>
+                    <div class="dropdown-menu" id="importDropdown">
+                        <a href="#" onclick="showImportModal()">📁 Upload Data File</a>
+                        <a href="#" onclick="downloadSampleTemplate()">📄 Download Sample Template</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
@@ -218,6 +232,8 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/import.js"></script>
     <script src="js/contacts.js"></script>
     <script>
         // Load contacts when page loads

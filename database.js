@@ -237,7 +237,12 @@ class Database {
     }
 
     async getAllContacts() {
-        const sql = 'SELECT * FROM contacts ORDER BY created_at DESC';
+        const sql = `
+            SELECT c.*, a.company_name 
+            FROM contacts c 
+            LEFT JOIN accounts a ON c.account_id = a.account_id 
+            ORDER BY c.created_at DESC
+        `;
         return await this.all(sql);
     }
 
@@ -293,7 +298,14 @@ class Database {
     }
 
     async getAllCommunications() {
-        const sql = 'SELECT * FROM communications ORDER BY comm_date DESC';
+        const sql = `
+            SELECT c.*, a.company_name,
+                   COALESCE(ct.first_name || ' ' || ct.last_name, '') as contact_name
+            FROM communications c 
+            LEFT JOIN accounts a ON c.account_id = a.account_id 
+            LEFT JOIN contacts ct ON c.contact_id = ct.contact_id
+            ORDER BY c.comm_date DESC
+        `;
         return await this.all(sql);
     }
 
@@ -348,7 +360,12 @@ class Database {
     }
 
     async getAllOpportunities() {
-        const sql = 'SELECT * FROM opportunities ORDER BY created_at DESC';
+        const sql = `
+            SELECT o.*, a.company_name 
+            FROM opportunities o 
+            LEFT JOIN accounts a ON o.account_id = a.account_id 
+            ORDER BY o.created_at DESC
+        `;
         return await this.all(sql);
     }
 

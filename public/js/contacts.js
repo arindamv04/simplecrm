@@ -69,7 +69,6 @@ function displayContacts(contacts) {
     
     let html = '';
     contacts.forEach(contact => {
-        const account = allAccounts.find(acc => String(acc.account_id) === String(contact.account_id));
         const fullName = `${contact.first_name || ''} ${contact.last_name || ''}`.trim();
         
         let flags = '';
@@ -82,7 +81,7 @@ function displayContacts(contacts) {
                     <strong>${fullName}</strong>
                     ${contact.notes ? `<br><small style="color: #666;">${contact.notes.substring(0, 50)}${contact.notes.length > 50 ? '...' : ''}</small>` : ''}
                 </td>
-                <td>${account ? account.company_name : 'Unknown'}</td>
+                <td>${contact.company_name || 'Unknown'}</td>
                 <td>${contact.title || '-'}</td>
                 <td>${contact.email ? `<a href="mailto:${contact.email}" style="color: #667eea;">${contact.email}</a>` : '-'}</td>
                 <td>${contact.phone ? `<a href="tel:${contact.phone}" style="color: #667eea;">${contact.phone}</a>` : '-'}</td>
